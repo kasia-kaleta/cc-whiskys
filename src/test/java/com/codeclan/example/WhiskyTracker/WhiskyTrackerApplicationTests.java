@@ -30,7 +30,7 @@ public class WhiskyTrackerApplicationTests {
 
 	@Test
 	public void findAllWhiskysByYear() {
-		List<Whisky> found = whiskyRepo.findAllWhiskysByYear(1995);
+		List<Whisky> found = whiskyRepo.findAllWhiskiesByYear(1995);
 		assertEquals("The Macallan Anniversary Malt", found.get(0).getName());
 	}
 
@@ -42,8 +42,20 @@ public class WhiskyTrackerApplicationTests {
 
 	@Test
 	public void findAllWhiskyFromDistilleryByAge() {
-	    Distillery distillery = distilleryRepo.getOne(1L);
-		List<Whisky> found = whiskyRepo.findAllWhiskysFromDistilleryByAge(distillery, 15);
+		List<Whisky> found = whiskyRepo.findAllWhiskiesFromDistilleryByAge(1L, 15);
 		assertEquals("The Glendronach Revival", found.get(0).getName());
 	}
+
+	@Test
+	public void findAllWhiskysByRegion() {
+		List<Whisky> found = whiskyRepo.findAllWhiskiesByRegion("Lowland");
+		assertEquals("The Rosebank 12 - Flora and Fona", found.get(0).getName());
+	}
+
+	@Test
+	public void findAllDistilleriesWith12YearOldWhiskies() {
+		List<Distillery> found = distilleryRepo.findAllDistilleriesWith12YearOldWhiskies();
+		assertEquals(2, found.size());
+	}
+
 }

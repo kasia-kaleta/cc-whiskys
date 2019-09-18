@@ -19,14 +19,31 @@ public class WhiskyRepositoryImpl implements WhiskyRepositoryCustom {
 
     @SuppressWarnings("deprecation")
     @Transactional
-    public List<Whisky> findAllWhiskysFromDistilleryByAge(Distillery distillery, int age) {
+    public List<Whisky> findAllWhiskiesFromDistilleryByAge(Long distilleryId, int age) {
         List<Whisky> results = null;
         try {
             Session session = entityManager.unwrap(Session.class);
             Criteria cr = session.createCriteria(Whisky.class);
             cr.createAlias("distillery", "d");
-            cr.add(Restrictions.eq("d.id", distillery.getId()));
+            cr.add(Restrictions.eq("d.id", distilleryId));
             cr.add(Restrictions.eq("age", age));
+            results = cr.list();
+        }
+        catch(HibernateException ex) {
+            ex.printStackTrace();
+        }
+        return results;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Transactional
+    public List<Whisky> findAllWhiskiesByRegion(String region) {
+        List<Whisky> results = null;
+        try {
+            Session session = entityManager.unwrap(Session.class);
+            Criteria cr = session.createCriteria(Whisky.class);
+            cr.createAlias("distillery", "d");
+            cr.add(Restrictions.eq("d.region", region));
             results = cr.list();
         }
         catch(HibernateException ex) {
